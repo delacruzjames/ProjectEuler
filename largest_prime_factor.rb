@@ -6,46 +6,44 @@ require 'minitest/autorun'
 require 'pry'
 
 class LargestPrimeFactorTest < Minitest::Test
-  def test_get_factor_of_10
+  def test_get_factor_of_24
     # skip
-    prime_factor = LargestPrimeFactor.new(10)
-    assert_equal [2,5], prime_factor.get_factor
+    assert_equal 3, LargestPrimeFactor.largest_prime_factor(24)
   end
 
   def test_get_factor_of_13195
     # skip
-    prime_factor = LargestPrimeFactor.new(13195)
-    assert_equal [5,7,13,29], prime_factor.get_factor
+    assert_equal 29, LargestPrimeFactor.largest_prime_factor(13195)
   end
 
   def test_get_factor_of_600851475143
-    skip
-    prime_factor = LargestPrimeFactor.new(600851475143)
-    assert_equal [5,7,13,29], prime_factor.get_factor
+    # skip
+    assert_equal 6857, LargestPrimeFactor.largest_prime_factor(600851475143)
   end
 end
 
 # TODO
 # ADD THREAD
 class LargestPrimeFactor
-  attr_accessor :number
+  def self.largest_prime_factor(number)
+    i = 1
+    largest_number = 0
 
-  def initialize(number)
-    @number = number
-  end
-
-  def get_factor
-    # binding.pry
-    new_arr = []
-    # binding.pry
-    arr = (1..number).to_a
-    # binding.pry
-    arr.each do |i|
-      puts i
-      unless i == 1 || i == number
-        new_arr.push(i) if number % i == 0
-      end
+    while i <= number
+      if ((number % i == 0) && is_prime?(i))
+       largest_number = i
+       number = number/i
+     end
+     i+=1
     end
-    new_arr
+    largest_number
   end
+
+  private
+    def self.is_prime?(number)
+      arr = Array (2..Math.sqrt(number).floor)
+      arr = arr.select { |x| number % x == 0}
+      return true if arr.empty?
+      false
+    end
 end

@@ -17,7 +17,7 @@ require 'concurrent'
 
 $stdout.sync = true
 
-pool = Concurrent::FixedThreadPool.new(1000)
+pool = Concurrent::FixedThreadPool.new(100000)
 
 600851475143.times do |url|
   pool.post {
